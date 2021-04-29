@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby                
+
+require_relative "../lib/wrds.rb"
+
+puts "hello world!"
+
+Wrds::CLI.new.start
