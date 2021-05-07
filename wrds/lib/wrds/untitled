@@ -1,0 +1,166 @@
+require 'highline/import'
+require 'apicake'
+require 'json'
+
+
+
+def call
+	CLI
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+888888888//a//a
+
+
+
+
+
+
+class CLI 
+  def call
+  	Display.intro
+  	Display.list("Constraints")
+  	Display.list(MODS.keys.each{|k| })
+  	Gather.parameters
+  end
+end
+
+
+
+
+
+module Display
+	def self.list(list)
+		puts "#{list}"
+	end
+
+	def self.intro
+		puts %(
+		wrds: find words
+		---------------------
+		use this app to find words based upon certain constraints.
+		For example: to find words that [sound_like] [pig] 
+		or to find words that [relatively_rhyme] with [nachos]
+		So you'll choose your constraint, then choose the word.
+		)
+	end
+
+end
+
+
+
+
+MODS = {
+    means_like: :ml, 
+    sounds_like: :sl, 
+    spelled_like: :sp, 
+    related_popular_nouns: :rel_jja, 
+    related_popular_adjectives: :rel_jjb, 
+    related_synonyms: :rel_syn, 
+    related_triggers: :rel_trg,
+    related_antonyms: :rel_ant, 
+    kind_of_hyponyms: :rel_spc, 
+    general_hyponyms: :rel_gen,
+    comporomise_hyponyms: :rel_com, 
+    part_of_meronyms: :rel_par, 
+    frequent_followers: :rel_bga, 
+	frequent_predecessors: :rel_bgb, 
+    related_rhymes: :rel_rhy, 
+    approximate_rhymes: :rel_nry,
+    related_homophones: :rel_hom,
+    consonant_match: :rel_cns
+}
+
+
+
+
+module Gather
+	tosym =->(mod){mod.to_s.to_sym}
+
+	def self.parameters
+	  	modifier = ask("which modifier? "){tosym.call(modifier)}
+	  	@words = ask("which word? "){tosym.call(words)}}
+	  	@mods = MODS[:"#{modifier}"]
+	  	@parameters = {@mods => @words}
+	end
+
+	def self.direction
+ 	choose do |menu|
+ 		menu.prompt = "what would you like to do? "
+ 		menu.layout = :one_line
+ 		menu.choice(:search_from_results, "search using a word from results") {puts 'results'}
+ 		menu.choice(:start_over, "search again") {CLI.new.start}
+ 		menu.choice(:quit, "Exit Program") {exit}
+ 	end
+ end
+end
+
+
+class Datamuse < APICake::Base
+	base_uri 'api.datamuse.com'
+end
+
+
+
+class Request
+	attr_accessor :word_list, :word
+	def initialize
+		@api = Datamuse.new
+		@params = Gather.parameters
+	end
+
+	def response
+		word_list = {}
+		word_list = @api.words @params
+		@word_list["results"].each do |word|
+			Word.new_from_json(word)
+	end
+end
+
+class Word
+	def self.new_from_json(word_info)
+		self.new(
+			word_info['word'],
+			word_info['score'],
+			word_info['tag']
+			)
+	end
+	def initialize(word=nil, score=nil, tag=nil)
+		@word = word
+		@score = score
+		@tag = tag
+		@@all << self
+	end
+	def self.all
+		@@all
+	end
+	def self.find(word)
+		self.all[word-1]
+	end
+	def score
+		@score
+	end
+	def tag
+		@tag
+	end
+end
+
+
+
+
+
+

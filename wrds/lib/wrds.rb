@@ -1,5 +1,7 @@
 require 'highline'
 require 'httparty'
+require 'apicake'
+
 
 
 require_relative './wrds/cli'
