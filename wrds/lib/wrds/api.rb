@@ -1,32 +1,20 @@
 
 
-
 require 'blanket'
 require 'highline/import'
 
 
-module Napi
-	NAPI = Blanket.wrap("https://newsapi.org", header: {APIKey: :APIKey})
-
-	def which_endpoint(**args)
-		@endpoint = ask("which area? everything or top_headlines", %w[everything top_headlines])
-	end
-
-	def any_parameters(**args)
-		@k = ask("any parameters? ", %w[q qInTitle sources domains excludedDomains from to lanugage sortBy pageSize page])
-		@v = ask("what specifically ?")
-		@params = {"#{@k}": :"#{@v}"}
-		@entry = {}
-		@entry[:params] = ask("parameters? (param, specific)")
-
-	end
-
-end
 
 
-class Ask
-	extend Napi
-end
+	class Datamuse
+
+
+emd
+		def initialize(damu)
+			@damu = Blanket::wrap("api.datamuse.com")
+		end
+
+		damu.send('words').get(params: {parameters: :parameters})
 
 
 
