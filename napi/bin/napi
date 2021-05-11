@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby                
+
+require '../cli/napi/cli.rb'
+
+
+CLI.new.start
+

@@ -2,9 +2,43 @@ require 'highline/import'
 
 
 
-module Wrds
+class Wrds
 
-METHODS = {
+  def Wrds.welcome 
+    puts %( wrds: find words
+    ------------------------
+      In order to find words that...
+      -- sound_like [apples],
+      -- are spelled_like [monkey], or
+      -- are similar_to [table]...
+      ...one must choose a modifier, then select a word. 
+      --------------------------)
+  end
+
+  def Wrds.menu
+    puts %( How this works is:
+
+      To search for words with  [relation] to ['keyword']
+      for words that            [rhyme_with] ['dog']
+      you would type:           rhymes_with 'dog'
+          
+
+      for words that spelled_like 'taco' --> spelled_like 'taco'
+      for word that mean_like 'basic'    --> mean_like 'basic'
+
+      )
+
+
+
+
+
+
+
+
+
+
+
+  METHODS = {
     means_like: :ml, sound_like: :sl, spelled_like: :sp, 
     related_popular_nouns: :rel_jja, related_popular_adjectives: :rel_jjb, 
     related_synonyms: :rel_syn, related_triggers: :rel_trg,
@@ -14,29 +48,10 @@ METHODS = {
     frequent_followers: :rel_bga, frequent_predecessors: :rel_bgb, 
     related_rhymes: :rel_rhy, approximate_rhymes: :rel_nry,
     related_homophones: :rel_hom, consonant_match: :rel_cns 
-}
-
-
-class Options
-@@all = {}
-	def initialize
-	end
-
-	def all
-		@@all
-	end
-
-	def list(hash)
-		hash.keys
-
-
+  }
 
 end
 
-
-
-
-end
 
 
 
@@ -44,28 +59,19 @@ end
 class Display; end
 class Ask; end
 class Params; end
+class Menu; end
 
 
-
-  def Display.welcome
-    puts %( wrds: find words
-    ------------------------
-      In order to find words that...
-	    -- sound_like [apples],
-	    -- are spelled_like [monkey], or
-	    -- are similar_to [table]...
-	    ...one must choose a modifier, then select a word. 
-	    --------------------------)
+  def Display.message(msg)
+    puts "#{msg}"
   end
 
-  def Display.options(hash)
-    	hash.with_index{|k,v,index|
-    		puts }
-
-    puts %( 
-
-    hash.keys )
+  def Display.menu(menu)
+    hash.with_index do |k,v,index|
+      puts "#{hash.keys}"
+    end
   end
+
 
   def Display.results
     puts %( results )
@@ -76,7 +82,8 @@ class Params; end
   		word: #{wrd.word}
   		tags: #{wrd.tags}
   		numSyllable: #{wrd:numSyllable}
-  	)
+
+  )
   end
 
 

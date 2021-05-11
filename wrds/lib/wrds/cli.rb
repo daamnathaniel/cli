@@ -3,19 +3,22 @@
 
 class CLI
   def call
-    Display.welcome
-    start
+    Display.message(Wrds::WELCOME_MESSAGE)
+    Display.menu(Wrds::CONSTRAINTS)
+  end
+
+  def process
+    API.input
+    API.request
+    API.process
+    API.response
+
   end
 
 
-  def start
-    Display.options
-    Ask.which_option
-    Display.results
-    Ask.which_option
-    Display.result
-    Ask.continue_or_quit
+  def end
   end
+
 
 
 
