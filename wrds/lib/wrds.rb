@@ -1,4 +1,4 @@
-require 'highline'
+require 'highline/import'
 require 'httparty'
 require 'apicake'
 
